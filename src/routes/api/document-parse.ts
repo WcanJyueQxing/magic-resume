@@ -49,20 +49,10 @@ export const Route = createFileRoute("/api/document-parse")({
           }
 
           const uploadResult = await uploadResponse.json();
-          console.log("File uploaded successfully, ID:", uploadResult.id);
+          console.log("File uploaded successfully, result:", uploadResult);
 
-          // 获取解析后的文本
-          const extractResponse = await fetch(`${BACKEND_API}/files/extract/${uploadResult.id}`);
-          
-          if (!extractResponse.ok) {
-            console.error("Extract request failed:", extractResponse.status);
-            throw new Error("获取文件内容失败");
-          }
-
-          const extractResult = await extractResponse.json();
-          console.log("Extract result:", extractResult);
-          const text = extractResult.content || "";
-
+          // 内容已经在上传响应中返回，无需再次调用 extract
+          const text = uploadResult.content || "";
           console.log(`Extracted text length: ${text.length}`);
 
           if (!text.trim()) {

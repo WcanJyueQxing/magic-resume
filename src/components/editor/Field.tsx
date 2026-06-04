@@ -74,6 +74,7 @@ const Field = ({
   }, [type, currentDate, fromDate]);
 
   const isPresentValue = useMemo(() => {
+    if (!value) return false;
     return value === t("field.toPresent") || value.endsWith(` - ${t("field.toPresent")}`);
   }, [value, t]);
 

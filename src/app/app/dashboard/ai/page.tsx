@@ -126,6 +126,30 @@ export default function ApiKeyConfigPage() {
     }
   };
 
+  const handleStatusChange = async (id: string, enabled: boolean) => {
+    try {
+      const response = await fetch(`/api/ai-config`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id, enabled }),
+      });
+      const result = await response.json();
+      if (result.success) {
+        setData(data.map((item) => (item.id === id ? { ...item, enabled } : item)));
+        message.success(enabled ? '已启用' : '已禁用');
+      } else {
+        message.error(result.error || '操作失败');
+        fetchData();
+      }
+    } catch (error) {
+      console.error('Update status error:', error);
+      message.error('操作失败');
+      fetchData();
+    }
+  };
+
   const handleSubmit = async () => {
     try {
       const values = await modalForm.validateFields();
@@ -211,14 +235,17 @@ export default function ApiKeyConfigPage() {
       key: 'enabled',
       width: 80,
       align: 'center',
-      render: (text: boolean) => (
-        <Switch checked={text} disabled />
+      render: (text: boolean, record: ApiKeyConfig) => (
+        <Switch
+          checked={text}
+          onChange={(checked) => handleStatusChange(record.id, checked)}
+        />
       ),
     },
     {
       title: '操作',
       key: 'action',
-      width: 120,
+      width: 150,
       align: 'center',
       render: (_, record: ApiKeyConfig) => (
         <Space>

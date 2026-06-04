@@ -211,7 +211,11 @@ export default function Home() {
     };
 
     window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    return () => {
+      if (window) {
+        window.removeEventListener('resize', handleResize);
+      }
+    };
   }, [previewPanelCollapsed]);
 
   useEffect(() => {

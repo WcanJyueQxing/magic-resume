@@ -1,5 +1,5 @@
 import type { ResumeData } from "@/types/resume";
-import { getFileHandle, verifyPermission } from "@/utils/fileSystem";
+import { getFileHandle, verifyPermission, storeFileHandle } from "@/utils/fileSystem";
 
 type SyncResult = {
   synced: number;
@@ -44,6 +44,17 @@ export const syncResumesFromDirectory = async (
     }
 
     const dirHandle = handle as FileSystemDirectoryHandle;
+    
+    // 测试目录是否仍然可访问
+    try {
+      await dirHandle.queryPermission({ mode: "read" });
+    } catch (error) {
+      console.warn("Sync directory is no longer accessible, clearing saved handle:", error);
+      // 清理失效的句柄
+      await storeFileHandle("syncDirectory", {} as FileSystemHandle);
+      return result;
+    }
+
     const entries = (dirHandle as any).values?.();
     if (!entries) {
       return result;
@@ -77,7 +88,12 @@ export const syncResumesFromDirectory = async (
       }
     }
   } catch (error) {
-    console.error("Error syncing resumes from files:", error);
+    if (error instanceof Error && error.name === "NotFoundError") {
+      console.warn("Sync directory not found, clearing saved handle:", error);
+      await storeFileHandle("syncDirectory", {} as FileSystemHandle);
+    } else {
+      console.error("Error syncing resumes from files:", error);
+    }
   }
 
   return result;

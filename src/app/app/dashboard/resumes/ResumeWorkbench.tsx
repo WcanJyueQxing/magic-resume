@@ -267,24 +267,25 @@ export const ResumeWorkbench = () => {
             let images: string[] = [];
 
             const formData = new FormData();
-            formData.append("file", file);
-            formData.append("type", "pdf");
+            formData.append("pdf", file);
+            formData.append("method", "auto");
 
             setImportProgress(20);
-            const response = await fetch("/api/document-parse", {
+            const response = await fetch("/api/pdf-parse", {
                 method: "POST",
                 body: formData,
             });
 
             if (!response.ok) {
                 const errorData = await response.json();
-                throw new Error(errorData.error || "PDF 解析失败");
+                throw new Error(errorData.error || errorData.details || "PDF 解析失败");
             }
 
             const result = await response.json();
             setImportProgress(60);
 
             fullText = result.text || "";
+            images = result.images ? result.images.map((img: any) => img.data) : [];
 
             setImportProgress(70);
 

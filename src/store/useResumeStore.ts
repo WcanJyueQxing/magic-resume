@@ -177,6 +177,13 @@ const syncResumeToFile = async (
 
     const dirHandle = handle as FileSystemDirectoryHandle;
 
+    // 验证 dirHandle 是否有 queryPermission 方法
+    if (typeof dirHandle.queryPermission !== "function") {
+      console.warn("Invalid directory handle, clearing saved handle");
+      localStorage.removeItem("syncDirectory");
+      return;
+    }
+
     try {
       // 测试目录是否仍然可访问
       await dirHandle.queryPermission({ mode: "readwrite" });

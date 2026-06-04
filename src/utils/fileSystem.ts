@@ -102,6 +102,12 @@ export const verifyPermission = async (
     return false;
   }
 
+  // 检查 handle 是否有 queryPermission 方法
+  if (typeof handle.queryPermission !== "function") {
+    console.warn("Invalid FileSystemHandle: queryPermission is not a function");
+    return false;
+  }
+
   const options = { mode };
 
   // 检查当前权限

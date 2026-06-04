@@ -274,8 +274,14 @@ export const Route = createFileRoute("/api/pdf-parse")({
 
           // 如果仍然没有内容
           if (!result.text && result.images.length === 0) {
+            console.error("PDF parse failed: No content extracted from file");
             return Response.json(
-              { error: "未能提取任何内容" },
+              { 
+                error: "未能提取任何内容",
+                details: "PDF 文件可能为空、加密、损坏或为扫描件（图片格式）",
+                method: result.method,
+                fileSize: file.size
+              },
               { status: 422 }
             );
           }
