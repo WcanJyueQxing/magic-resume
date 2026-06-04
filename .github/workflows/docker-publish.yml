@@ -16,6 +16,8 @@ jobs:
     permissions:
       contents: read
       packages: write
+    
+    if: ${{ secrets.DOCKERHUB_USERNAME && secrets.DOCKERHUB_TOKEN }}
 
     steps:
       - name: Checkout repository
