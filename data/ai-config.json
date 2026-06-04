@@ -1,0 +1,46 @@
+[
+  {
+    "id": "1",
+    "name": "OpenAI 主密钥",
+    "platform": "openai",
+    "apiKey": "sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "endpoint": "https://api.openai.com/v1",
+    "model": "gpt-4o",
+    "usedToday": 32500,
+    "usedTotal": 156000,
+    "enabled": true
+  },
+  {
+    "id": "2",
+    "name": "Claude 备用",
+    "platform": "claude",
+    "apiKey": "sk-ant-api03-xxxxxxxxxxxxxxxx",
+    "endpoint": "https://api.anthropic.com/v1",
+    "model": "claude-3-sonnet-20240229",
+    "usedToday": 45000,
+    "usedTotal": 234000,
+    "enabled": true
+  },
+  {
+    "id": "3",
+    "name": "Gemini 测试",
+    "platform": "gemini",
+    "apiKey": "AIzaSyxxxxxxxxxxxxxxxxxxxxxxxx",
+    "endpoint": "https://generativelanguage.googleapis.com/v1",
+    "model": "gemini-pro",
+    "usedToday": 12000,
+    "usedTotal": 45000,
+    "enabled": false
+  },
+  {
+    "id": "4",
+    "name": "Doubao 企业版",
+    "platform": "doubao",
+    "apiKey": "26xxxxxxxxxxxxxxxxxxxxxxxx",
+    "endpoint": "https://ark.cn-beijing.volces.com/api/v3",
+    "model": "doubao-3.5-turbo",
+    "usedToday": 28000,
+    "usedTotal": 98000,
+    "enabled": true
+  }
+]
